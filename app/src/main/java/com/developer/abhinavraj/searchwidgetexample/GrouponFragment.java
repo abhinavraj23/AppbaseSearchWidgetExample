@@ -89,22 +89,24 @@ public class GrouponFragment extends Fragment {
         defaultSuggestions = new DefaultClientSuggestions(suggestions).setCategories(categories).build();
 
         searchBar.setPlaceHolderText("Search");
+        searchBar.setMaxSuggestionCount(5);
 
         // Setting extra properties
         ArrayList<String> extraProperties = new ArrayList<>();
         extraProperties.add("image");
 
         final SearchPropModel searchPropModel = searchBar.setSearchProp("Demo Widget", dataFields)
-                .setQueryFormat("and")
+                .setQueryFormat("or")
                 .setHighlight(true)
-                .setCategoryField("src")
-                .setTopEntries(2)
+                .setCategoryField("tags")
+                .setTopEntries(10)
+                .setRedirectIcon(true)
                 .setSearchResultImage(false)
                 .setExtraFields(extraProperties)
-                .setRedirectIcon(true)
                 .build();
 
-        searchBar.setOnItemClickListener(new SearchBar.ItemClickListener() {
+
+        searchBar.startSearch(searchPropModel, new SearchBar.ItemClickListener() {
             @Override
             public void onClick(View view, int position, ClientSuggestionsModel result) {
                 try {
@@ -170,7 +172,7 @@ public class GrouponFragment extends Fragment {
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
-//                searchBar.clearSuggestions();
+//                sear
             }
 
             @Override
@@ -178,6 +180,11 @@ public class GrouponFragment extends Fragment {
 
             }
         });
+
+        searchBar.setLoggingQuery(true);
+
+        searchBar.setSpeechMode(true);
+
 
         searchBar.setOnTextChangeListener(new SearchBar.TextChangeListener() {
             @Override
@@ -188,11 +195,6 @@ public class GrouponFragment extends Fragment {
         });
 
         // To log the queries made by Appbase client for debugging
-        searchBar.startSearch(searchPropModel);
-
-        searchBar.setLoggingQuery(true);
-
-        searchBar.setSpeechMode(true);
 
         // Managing voice recording permissions on record button click
         searchBar.setOnSearchActionListener(new SearchBar.OnSearchActionListener() {
@@ -272,7 +274,17 @@ public class GrouponFragment extends Fragment {
             public void onButtonClicked(int buttonCode) {
                 if(buttonCode == SearchBar.BUTTON_SPEECH) {
                     if(searchBar.isVoicePermissionGranted()) {
-                        searchBar.startVoiceSearch(searchPropModel);
+                        searchBar.startVoiceSearch(searchPropModel, new SearchBar.ItemClickListener() {
+                            @Override
+                            public void onClick(View view, int position, ClientSuggestionsModel result) {
+
+                            }
+
+                            @Override
+                            public void onLongClick(View view, int position, ClientSuggestionsModel result) {
+
+                            }
+                        });
                     } else {
                         getFragmentManager().beginTransaction().add(new VoicePermissionDialogFragment(), "Recording Permission").commit();
                     }

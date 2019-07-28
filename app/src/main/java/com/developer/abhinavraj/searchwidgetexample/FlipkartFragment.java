@@ -86,30 +86,28 @@ public class FlipkartFragment extends Fragment {
         suggestions.add("Nike Trousers");
 
         // Making list of default categories to be displayed
-        final ArrayList<String> categories = new ArrayList<>();
+        ArrayList<String> categories = new ArrayList<>();
         categories.add("T-Shirt");
         categories.add("Mobiles");
-
-        // Setting default suggestions
-        defaultSuggestions = new DefaultClientSuggestions(suggestions).setCategories(categories).build();
-
-        searchBar.setPlaceHolderText("Search");
 
         // Setting extra properties
         ArrayList<String> extraProperties = new ArrayList<>();
         extraProperties.add("image");
 
+        // Setting default suggestions
+        defaultSuggestions = new DefaultClientSuggestions(suggestions).setCategories(categories).build();
+
+        searchBar.setMaxSuggestionCount(5);
+
         final SearchPropModel searchPropModel = searchBar.setSearchProp("Demo Widget", dataFields)
-                .setQueryFormat("and")
+                .setQueryFormat("or")
                 .setHighlight(true)
-                .setCategoryField("src")
+                .setCategoryField("tags")
                 .setTopEntries(2)
-                .setRedirectIcon(false)
                 .setExtraFields(extraProperties)
-                .setRedirectIcon(true)
                 .build();
 
-        searchBar.setOnItemClickListener(new SearchBar.ItemClickListener() {
+        searchBar.startSearch(searchPropModel, new SearchBar.ItemClickListener() {
             @Override
             public void onClick(View view, int position, ClientSuggestionsModel result) {
                 try {
@@ -175,7 +173,7 @@ public class FlipkartFragment extends Fragment {
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
-//                searchBar.clearSuggestions();
+//                sear
             }
 
             @Override
@@ -193,7 +191,7 @@ public class FlipkartFragment extends Fragment {
         });
 
         // To log the queries made by Appbase client for debugging
-        searchBar.startSearch(searchPropModel);
+//        searchBar.startSearch(searchPropModel);
 
         searchBar.setLoggingQuery(true);
 
@@ -277,7 +275,17 @@ public class FlipkartFragment extends Fragment {
             public void onButtonClicked(int buttonCode) {
                 if(buttonCode == SearchBar.BUTTON_SPEECH) {
                     if(searchBar.isVoicePermissionGranted()) {
-                        searchBar.startVoiceSearch(searchPropModel);
+                        searchBar.startVoiceSearch(searchPropModel, new SearchBar.ItemClickListener() {
+                            @Override
+                            public void onClick(View view, int position, ClientSuggestionsModel result) {
+
+                            }
+
+                            @Override
+                            public void onLongClick(View view, int position, ClientSuggestionsModel result) {
+
+                            }
+                        });
                     } else {
                         getFragmentManager().beginTransaction().add(new VoicePermissionDialogFragment(), "Recording Permission").commit();
                     }

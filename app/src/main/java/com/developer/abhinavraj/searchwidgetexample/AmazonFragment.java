@@ -90,31 +90,30 @@ public class AmazonFragment extends Fragment {
         defaultSuggestions = new DefaultClientSuggestions(suggestions).setCategories(categories).build();
 
         searchBar.setPlaceHolderText("Search");
+        searchBar.setMaxSuggestionCount(5);
 
         // Setting extra properties
         ArrayList<String> extraProperties = new ArrayList<>();
         extraProperties.add("image");
 
         final SearchPropModel searchPropModel = searchBar.setSearchProp("Demo Widget", dataFields)
-                .setQueryFormat("and")
+                .setQueryFormat("or")
                 .setHighlight(true)
-                .setCategoryField("src")
+                .setCategoryField("tags")
                 .setTopEntries(2)
                 .setRedirectIcon(false)
                 .setSearchResultImage(false)
                 .setExtraFields(extraProperties)
-                .setRedirectIcon(false)
                 .build();
 
-        searchBar.setOnItemClickListener(new SearchBar.ItemClickListener() {
+        searchBar.startSearch(searchPropModel, new SearchBar.ItemClickListener() {
             @Override
             public void onClick(View view, int position, ClientSuggestionsModel result) {
                 try {
                     String response = searchBar.search(searchPropModel,String.valueOf(result.getText()));
                     Log.d("RESPONSE", response);
                     filteredData = new ArrayList<>();
-                    searchBar.setText(result.getText());
-                    searchBar.clearSuggestions();
+//                    searchBar.setText();
 
                     mGridLayoutManager = new GridLayoutManager(getActivity(), 2);
                     recyclerView.setLayoutManager(mGridLayoutManager);
@@ -173,7 +172,7 @@ public class AmazonFragment extends Fragment {
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
-//                searchBar.clearSuggestions();
+//                sear
             }
 
             @Override
@@ -191,7 +190,7 @@ public class AmazonFragment extends Fragment {
         });
 
         // To log the queries made by Appbase client for debugging
-        searchBar.startSearch(searchPropModel);
+//        searchBar.startSearch(searchPropModel);
 
         searchBar.setLoggingQuery(true);
 
@@ -275,7 +274,17 @@ public class AmazonFragment extends Fragment {
             public void onButtonClicked(int buttonCode) {
                 if(buttonCode == SearchBar.BUTTON_SPEECH) {
                     if(searchBar.isVoicePermissionGranted()) {
-                        searchBar.startVoiceSearch(searchPropModel);
+                        searchBar.startVoiceSearch(searchPropModel, new SearchBar.ItemClickListener() {
+                            @Override
+                            public void onClick(View view, int position, ClientSuggestionsModel result) {
+
+                            }
+
+                            @Override
+                            public void onLongClick(View view, int position, ClientSuggestionsModel result) {
+
+                            }
+                        });
                     } else {
                         getFragmentManager().beginTransaction().add(new VoicePermissionDialogFragment(), "Recording Permission").commit();
                     }

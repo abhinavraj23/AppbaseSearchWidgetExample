@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.navigation_groupon:
                     toolbar.setTitle("Groupon");
-                    fragment = new FlipkartFragment();
+                    fragment = new GrouponFragment();
                     break;
             }
             return loadFragment(fragment);
