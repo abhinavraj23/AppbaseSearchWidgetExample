@@ -4,15 +4,15 @@
     <item
         android:id="@+id/navigation_amazon"
         android:icon="@drawable/ic_shop"
-        android:title="Amazon"/>
+        android:title="Minimalistic"/>
 
     <item
         android:id="@+id/navigation_flipkart"
         android:icon="@drawable/ic_shop_2"
-        android:title="Flipkart"/>
+        android:title="Modern"/>
 
     <item
         android:id="@+id/navigation_groupon"
         android:icon="@drawable/ic_shop_3"
-        android:title="Groupon"/>
+        android:title="Custom"/>
 </menu>

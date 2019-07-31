@@ -3,7 +3,6 @@ package com.developer.abhinavraj.searchwidgetexample;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.navigationView);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        loadFragment(new FlipkartFragment());
+        loadFragment(new ModernFragment());
 
         toolbar.setTitle("Flipkart");
     }
@@ -36,16 +35,16 @@ public class MainActivity extends AppCompatActivity {
             Fragment fragment = null;
             switch (item.getItemId()) {
                 case R.id.navigation_amazon:
-                    toolbar.setTitle("Amazon");
-                    fragment = new AmazonFragment();
+                    toolbar.setTitle("Minimalistic");
+                    fragment = new MinimalisticFragment();
                     break;
                 case R.id.navigation_flipkart:
-                    toolbar.setTitle("Flipkart");
-                    fragment = new FlipkartFragment();
+                    toolbar.setTitle("Modern");
+                    fragment = new ModernFragment();
                     break;
                 case R.id.navigation_groupon:
-                    toolbar.setTitle("Groupon");
-                    fragment = new GrouponFragment();
+                    toolbar.setTitle("Custom");
+                    fragment = new CustomFragment();
                     break;
             }
             return loadFragment(fragment);

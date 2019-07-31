@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.harsh-2711:appbase-search-widget:0.1.7@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c28534d5a158cee7b182c58fc99aeeb4/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c28534d5a158cee7b182c58fc99aeeb4/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.harsh-2711/appbase-search-widget/0.1.7/9e1fc4ee99f65301571327d9766b39d2b54b0cf1/appbase-search-widget-0.1.7-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
