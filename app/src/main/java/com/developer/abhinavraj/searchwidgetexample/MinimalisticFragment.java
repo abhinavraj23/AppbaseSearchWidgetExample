@@ -100,12 +100,12 @@ public class MinimalisticFragment extends Fragment {
         final SearchPropModel searchPropModel = searchBar.setSearchProp("Demo Widget", dataFields)
                 .setQueryFormat("or")
                 .setHighlight(true)
-                .setCategoryField("tags")
+                .setCategoryField("tags.keyword")
+                .setInPlaceCategory(false)
                 .setTopEntries(2)
-                .setRedirectIcon(false)
-                .setSearchResultImage(false)
                 .setExtraFields(extraProperties)
                 .build();
+
 
         searchBar.startSearch(searchPropModel, new SearchBar.ItemClickListener() {
             @Override
@@ -204,7 +204,7 @@ public class MinimalisticFragment extends Fragment {
 
         searchBar.setLoggingQuery(true);
 
-        searchBar.setSpeechMode(false);
+        searchBar.setSpeechMode(true);
 
         // Managing voice recording permissions on record button click
         searchBar.setOnSearchActionListener(new SearchBar.OnSearchActionListener() {

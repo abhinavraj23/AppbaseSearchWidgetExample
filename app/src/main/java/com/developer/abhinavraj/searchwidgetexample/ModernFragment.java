@@ -1,7 +1,5 @@
 package com.developer.abhinavraj.searchwidgetexample;
 
-
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,7 +27,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
@@ -103,7 +100,8 @@ public class ModernFragment extends Fragment {
         final SearchPropModel searchPropModel = searchBar.setSearchProp("Demo Widget", dataFields)
                 .setQueryFormat("or")
                 .setHighlight(true)
-                .setCategoryField("tags")
+                .setCategoryField("tags.keyword")
+                .setInPlaceCategory(false)
                 .setTopEntries(2)
                 .setExtraFields(extraProperties)
                 .build();

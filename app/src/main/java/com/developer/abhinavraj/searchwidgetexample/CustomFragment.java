@@ -109,13 +109,23 @@ public class CustomFragment extends Fragment {
         searchPropModel = searchBar.setSearchProp("Demo Widget", dataFields)
                 .setQueryFormat("or")
                 .setHighlight(true)
-                .setCategoryField("tags")
                 .setTopEntries(10)
                 .setHitsEnabled(true)
                 .setRedirectIcon(false)
+                .setCategoryField("tags.keyword")
+                .setInPlaceCategory(false)
                 .setSearchResultImage(false)
                 .setExtraFields(extraProperties)
                 .build();
+
+        ArrayList<String> entries = new ArrayList<>();
+//        ArrayList<HashMap<String, ArrayList<String>>> temp2 = new ArrayList<>();
+
+        ArrayList<ClientSuggestionsModel> adapterEntries;
+        adapterEntries = new DefaultClientSuggestions(entries).build();
+        adapter = new ClientSuggestionsAdapter(adapterEntries, "", searchPropModel.isHighlight(), true, searchPropModel.isSearchResultImage(), searchPropModel.isRedirectIcon());
+
+        searchBar.getRecyclerView().setAdapter(adapter);
 
         itemClickListener = new SearchBar.ItemClickListener() {
             @Override
@@ -172,9 +182,8 @@ public class CustomFragment extends Fragment {
             @Override
             public void onTextChange(String response) {
                 // Responses to the queries passed in the Search Bar are available here
-
-                new StartSearching().execute(response, searchBar.getText(), itemClickListener);
                 Log.d("Results", response);
+                new StartSearching().execute(response, searchBar.getText(), itemClickListener);
             }
         });
 
@@ -337,6 +346,7 @@ public class CustomFragment extends Fragment {
             result = (String) params[0];
             query = (String) params[1];
             itemClickListener = (SearchBar.ItemClickListener) params[2];
+
             try {
 
                 JSONObject resultJSON = new JSONObject(result);
@@ -458,7 +468,9 @@ public class CustomFragment extends Fragment {
                     adapter.notifyDataSetChanged();
                     closeSuggestions = false;
                 }
-
+//                for(int i = 0; i < adapter.getItemCount(); i++)
+//                    Log.d("HIII", adapter.getItem(i).getText());
+                searchBar.getRecyclerView().setVisibility(View.VISIBLE);
                 searchBar.getRecyclerView().setAdapter(adapter);
             }
 

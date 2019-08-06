@@ -22,9 +22,9 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.navigationView);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        loadFragment(new ModernFragment());
+        loadFragment(new MinimalisticFragment());
 
-        toolbar.setTitle("Flipkart");
+        toolbar.setTitle("Minimalistic");
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -36,14 +36,17 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_amazon:
                     toolbar.setTitle("Minimalistic");
+                    toolbar.setIcon(R.drawable.ic_shop);
                     fragment = new MinimalisticFragment();
                     break;
                 case R.id.navigation_flipkart:
                     toolbar.setTitle("Modern");
+                    toolbar.setIcon(R.drawable.ic_shop_2);
                     fragment = new ModernFragment();
                     break;
                 case R.id.navigation_groupon:
                     toolbar.setTitle("Custom");
+                    toolbar.setIcon(R.drawable.ic_shop_3);
                     fragment = new CustomFragment();
                     break;
             }

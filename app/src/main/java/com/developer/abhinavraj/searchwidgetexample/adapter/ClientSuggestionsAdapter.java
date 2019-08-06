@@ -1,5 +1,6 @@
 package com.developer.abhinavraj.searchwidgetexample.adapter;
 
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -8,14 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.developer.abhinavraj.searchwidgetexample.CustomSuggestionsViewHolder;
 import com.developer.abhinavraj.searchwidgetexample.R;
 import com.harsh.searchwidget.Model.ClientSuggestionsModel;
-import com.harsh.searchwidget.View.ClientSuggestionsViewHolder;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ClientSuggestionsAdapter extends RecyclerView.Adapter<ClientSuggestionsViewHolder> {
+public class ClientSuggestionsAdapter extends RecyclerView.Adapter<CustomSuggestionsViewHolder> {
     private ArrayList<ClientSuggestionsModel> suggestions;
     private int topEntries;
     private boolean shouldHighlight;
@@ -26,6 +27,7 @@ public class ClientSuggestionsAdapter extends RecyclerView.Adapter<ClientSuggest
     private RedirectClickListener redirectClickListener;
     private RecyclerItemClickListener recyclerItemClickListener;
     private final int endTextLimit = 15;
+    boolean isAdd;
 
     /**
      * Listener for click on recycler view's items
@@ -118,16 +120,17 @@ public class ClientSuggestionsAdapter extends RecyclerView.Adapter<ClientSuggest
     }
 
     @Override
-    public ClientSuggestionsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CustomSuggestionsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.suggestion_item, parent, false);
-        ClientSuggestionsViewHolder holder = new ClientSuggestionsViewHolder(v);
+        CustomSuggestionsViewHolder holder = new CustomSuggestionsViewHolder(v);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ClientSuggestionsViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final CustomSuggestionsViewHolder holder, final int position) {
 
         boolean shouldRedirect = false;
+        isAdd = true;
 
         if(shouldHighlight) {
             if(suggestions.get(position).getText().toLowerCase().contains(queryText.toLowerCase())) {
@@ -164,7 +167,7 @@ public class ClientSuggestionsAdapter extends RecyclerView.Adapter<ClientSuggest
             holder.hits.setVisibility(View.VISIBLE);
             final Random r = new Random();
             int hit = r.nextInt(200)+300;
-            holder.hits.setText(String.valueOf(hit));
+            holder.hits.setText("$" + String.valueOf(hit));
         } else
             holder.hits.setVisibility(View.GONE);
 
@@ -212,6 +215,18 @@ public class ClientSuggestionsAdapter extends RecyclerView.Adapter<ClientSuggest
             public boolean onLongClick(View v) {
                 recyclerItemClickListener.onItemClickLong(v, position);
                 return true;
+            }
+        });
+
+        holder.icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isAdd){
+                    holder.icon.setImageResource(R.drawable.ic_minus);
+                } else {
+                    holder.icon.setImageResource(R.drawable.ic_add);
+                }
+                isAdd = !isAdd;
             }
         });
     }
